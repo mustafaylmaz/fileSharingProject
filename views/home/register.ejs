@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../stylesheets/style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="card" style="width: 18rem;">            
+            <div class="card-header">Register Form</div>    
+            <div class="card-body">
+                <form action="/auth/register" method="POST">
+                    <div class="mb-3">
+                        <label for="email-reg" class="form-label">Email</label>
+                        <input type="text" class="form-control" id="email-reg" name="email">                        
+                    </div>
+                    <div class="mb-3">
+                        <label for="password-reg" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password-reg" name="password">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password-conf-reg" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="password-conf-reg" name="passwordconfirm">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
