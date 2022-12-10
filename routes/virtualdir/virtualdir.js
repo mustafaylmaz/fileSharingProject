@@ -1,13 +1,15 @@
 const router = require("express").Router();
 const session = require("express-session");
 const Directory = require("../../models/Directory.js");
-const addDirectory = require('../../controller/directoryController')
+const addDirectory = require('../../controller/directoryController');
+const File = require("../../models/File.js");
 
 router.get("/", async (req, res, next) => {
   const virtualdirs = await Directory.findAll({
     where: { userId: req.session.userId },
   });
-  res.render("virtualdir/index", { virtualdirs });
+  const files = await File.findAll()
+  res.render("virtualdir/index", { virtualdirs, files });
 });
 
 router.post('/', async(req,res) => {

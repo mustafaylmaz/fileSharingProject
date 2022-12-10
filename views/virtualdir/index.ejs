@@ -49,6 +49,7 @@
       </div>
     </form>
     <hr />
+
     <table class="table">
       <thead>
         <tr>
@@ -81,6 +82,32 @@
           <td>
             <a href="/filemanager/<%=item.id%>"><i class="fa fa-eye"></i></a>
           </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <hr>
+    <h1>Files:</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">File GUID</th>
+          <th scope="col">File Name</th>
+          <th scope="col">File Extension</th>
+          <th scope="col">Size</th>
+          <th scope="col">Upload Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% files.forEach((item,index) => { %>
+        <tr>
+          <th scope="row"><%=item.id%></th>
+          <td><%=item.file_id%></td>
+          <td><%=item.file_name%></td>
+          <td><%=item.file_extension%></td>
+          <td><%=item.file_size%></td>
+          <td><%=item.createdAt%></td>
         </tr>
         <% }) %>
       </tbody>
