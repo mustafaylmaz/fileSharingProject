@@ -51,7 +51,8 @@
           <% }) %>
         </tbody>
       </table>
-      <form action="/filemanager" enctype="multipart/form-data" method="POST"> 
+      <form action="/filemanager/<%=dirUId%>" enctype="multipart/form-data" method="POST"> 
+        <input id="currentVirtualDir" type="hidden" value="<%=dirUId%>">
         <input type="file" name="myFile" />
         <input type="submit" value="Upload a file"/>
      </form>
