@@ -13,7 +13,7 @@ const options = require("./config/dbConfig.js");
 const app = express();
 const dotenv = require("dotenv");
 const sessionConfig = require("./config/sessionConfig.js");
-
+const sequelize = require('./tools/db/sequelize.js')
 
 
 
@@ -40,16 +40,7 @@ const user = require("./models/User");
 const userRoute = require("./routes/users/index.js");
 const filemanagerRoute = require("./routes/filemanager");
 
-const Sequelize = require("sequelize");
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
-  {
-    host: process.env.DB_HOST,
-    dialect: process.env.DB_DIALECT,
-  }
-);
+
 
 app.set("view engine", "ejs");
 app.use(cors());

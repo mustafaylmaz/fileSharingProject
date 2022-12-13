@@ -36,8 +36,10 @@ const upload = multer({ storage: storage });
 
 router.get("/:id", async (req, res) => {
   const dirUId = req.params.id;
+  const dir = await Directory.findOne({ where: { id: dirUId } });
   const files = await File.findAll({ where: { directoryId: dirUId } });
-  res.render("filemanager/index", { files, dirUId });
+  const useruId = req.session.useruId
+  res.render("filemanager/index", { files, dirUId, dir,useruId });
 });
 
 router.post("/:id", upload.single("myFile"), async (req, res, next) => {
@@ -50,7 +52,6 @@ router.post("/:id", upload.single("myFile"), async (req, res, next) => {
       file_size: fileSize,
       directoryId: directoryId,
     });
-
     return res.render("filemanager/index");
   } catch (error) {
     console.error(error);
