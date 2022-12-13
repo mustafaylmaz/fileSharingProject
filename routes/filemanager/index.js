@@ -42,6 +42,15 @@ router.get("/:id", async (req, res) => {
   res.render("filemanager/index", { files, dirUId, dir,useruId });
 });
 
+router.post("/delete", async(req,res)=> {
+  const {id} = req.body
+  await File.destroy({
+    where: {
+      id: id
+    }
+  })
+})
+
 router.post("/edit/ajax/", async(req,res)=> {
   const {newFileName, id} = req.body
   await File.update({
