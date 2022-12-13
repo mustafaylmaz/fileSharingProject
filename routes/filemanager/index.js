@@ -42,6 +42,18 @@ router.get("/:id", async (req, res) => {
   res.render("filemanager/index", { files, dirUId, dir,useruId });
 });
 
+router.post("/edit/ajax/", async(req,res)=> {
+  const {newFileName, id} = req.body
+  await File.update({
+    file_name: newFileName
+  },{
+    where: {
+      file_id: id
+    }
+  })
+  res.send(200)
+})
+
 router.post("/:id", upload.single("myFile"), async (req, res, next) => {
   try {
     const directoryId = req.params.id;
@@ -72,4 +84,6 @@ router.post("/", upload.single("myFile"), async (req, res, next) => {
     console.error(error);
   }
 });
+
+
 module.exports = router;

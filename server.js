@@ -43,8 +43,7 @@ const filemanagerRoute = require("./routes/filemanager");
 
 
 app.set("view engine", "ejs");
-app.use(cors());
-
+app.use(cors({origin: ['http://localhost:3000', 'http://127.0.0.1:3000']}));
 
 app.use("/", homeRoute);
 app.use("/download", downloadRoute);
