@@ -8,7 +8,9 @@ router.get("/", async (req, res, next) => {
   const virtualdirs = await Directory.findAll({
     where: { userId: req.session.userId },
   });
-  const files = await File.findAll()
+  const files = await File.findAll({
+    where: { directoryId: null }
+  })
   res.render("virtualdir/index", { virtualdirs, files });
 });
 

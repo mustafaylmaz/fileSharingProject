@@ -11,13 +11,21 @@ let fileSize;
 const fileUID = uuidv4();
 
 const storage = multer.diskStorage({
-  destination: async(req, file, cb) => {
-    const dir = await Directory.findOne({where: {
-        id: req.params.id
-    }})
-    cb(null, "App_Data/" + req.session.useruId+'/'+dir.dir_name);
-    fileSize = parseInt(req.headers["content-length"]);
-    files = file;
+  destination: async (req, file, cb) => {
+    if (req.params.id) {
+      const dir = await Directory.findOne({
+        where: {
+          id: req.params.id,
+        },
+      });
+      cb(null, "App_Data/" + req.session.useruId + "/" + dir.dir_name);
+      fileSize = parseInt(req.headers["content-length"]);
+      files = file;
+    } else {
+      cb(null, "App_Data/" + req.session.useruId);
+      fileSize = parseInt(req.headers["content-length"]);
+      files = file;
+    }
   },
   filename: (req, file, cb) => {
     cb(null, fileUID);
@@ -33,34 +41,32 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/:id", upload.single("myFile"), async (req, res, next) => {
-  const directoryId = req.params.id
-  await File.create({
-    file_id: fileUID,
-    file_name: files.originalname,
-    file_extension: files.mimetype,
-    file_size: fileSize,
-    directoryId: directoryId,
-  });
   try {
-    return res.status(201).json({
-      message: "File uploded successfully",
+    const directoryId = req.params.id;
+    await File.create({
+      file_id: fileUID,
+      file_name: files.originalname,
+      file_extension: files.mimetype,
+      file_size: fileSize,
+      directoryId: directoryId,
     });
+
+    return res.render("filemanager/index");
   } catch (error) {
     console.error(error);
   }
 });
 
 router.post("/", upload.single("myFile"), async (req, res, next) => {
-  await File.create({
-    file_id: fileUID,
-    file_name: files.originalname,
-    file_extension: files.mimetype,
-    file_size: fileSize,
-  });
   try {
-    return res.status(201).json({
-      message: "File uploded successfully",
+    await File.create({
+      file_id: fileUID,
+      file_name: files.originalname,
+      file_extension: files.mimetype,
+      file_size: fileSize,
     });
+
+    return res.redirect("/virtualdir");
   } catch (error) {
     console.error(error);
   }

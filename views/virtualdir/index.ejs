@@ -86,7 +86,7 @@
         <% }) %>
       </tbody>
     </table>
-    <hr>
+    <hr />
     <h1>Files:</h1>
     <table class="table">
       <thead>
@@ -112,6 +112,17 @@
         <% }) %>
       </tbody>
     </table>
+
+
+    <form
+      action="/filemanager/"
+      
+      enctype="multipart/form-data"
+      method="POST" 
+    >
+      <input type="file" class="form-control" name="myFile" />
+      <input type="submit"  class="btn btn-primary " value="Upload a file" />
+    </form>
     <li><a href="/auth/logout">Logout</a></li>
   </body>
 
