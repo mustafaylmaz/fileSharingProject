@@ -5,7 +5,7 @@ const router = require("express").Router();
 
 const { v4: uuidv4 } = require("uuid");
 const Directory = require("../../models/Directory");
-
+const sessionChecker = require("../../middleware/sessionChecker");
 let files;
 let fileSize;
 const fileUID = uuidv4();
@@ -38,32 +38,40 @@ router.get("/:id", async (req, res) => {
   const dirUId = req.params.id;
   const dir = await Directory.findOne({ where: { id: dirUId } });
   const files = await File.findAll({ where: { directoryId: dirUId } });
-  const useruId = req.session.useruId
-  res.render("filemanager/index", { files, dirUId, dir,useruId });
+  const useruId = req.session.useruId;
+  res.render("filemanager/index", { files, dirUId, dir, useruId });
 });
 
-router.post("/delete", async(req,res)=> {
-  const {id} = req.body
-  await File.destroy({
-    where: {
-      id: id
-    }
-  })
-})
+router.post("/delete", async (req, res) => {
+  if (sessionChecker) {
+    const { id } = req.body;
+    await File.destroy({
+      where: {
+        id: id,
+      },
+    });
+  } else res.send(404);
+});
 
-router.post("/edit/ajax/", async(req,res)=> {
-  const {newFileName, id} = req.body
-  await File.update({
-    file_name: newFileName
-  },{
-    where: {
-      file_id: id
+router.post("/edit/ajax/", async (req, res) => {
+  if(sessionChecker){
+  const { newFileName, id } = req.body;
+  await File.update(
+    {
+      file_name: newFileName,
+    },
+    {
+      where: {
+        file_id: id,
+      },
     }
-  })
-  res.send(200)
-})
+  );
+  res.send(200);
+}
+else res.send(404)
+});
 
-router.post("/:id", upload.single("myFile"), async (req, res, next) => {
+router.post("/:id", upload.single("myFile"), async (req, res) => {
   try {
     const directoryId = req.params.id;
     await File.create({
@@ -72,20 +80,23 @@ router.post("/:id", upload.single("myFile"), async (req, res, next) => {
       file_extension: files.mimetype,
       file_size: fileSize,
       directoryId: directoryId,
+      userId: req.session.userId
+
     });
-    return res.render("filemanager/index");
+    return res.redirect(`${req.params.id}`);
   } catch (error) {
     console.error(error);
   }
 });
 
-router.post("/", upload.single("myFile"), async (req, res, next) => {
+router.post("/", upload.single("myFile"), async (req, res) => {
   try {
     await File.create({
       file_id: fileUID,
       file_name: files.originalname,
       file_extension: files.mimetype,
       file_size: fileSize,
+      userId: req.session.userId
     });
 
     return res.redirect("/virtualdir");
@@ -93,6 +104,5 @@ router.post("/", upload.single("myFile"), async (req, res, next) => {
     console.error(error);
   }
 });
-
 
 module.exports = router;

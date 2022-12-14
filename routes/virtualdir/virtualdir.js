@@ -9,14 +9,13 @@ router.get("/", async (req, res, next) => {
     where: { userId: req.session.userId },
   });
   const files = await File.findAll({
-    where: { directoryId: null }
+    where: { directoryId: null,
+    userId:req.session.userId }
   })
   res.render("virtualdir/index", { virtualdirs, files });
 });
 
 router.post('/', async(req,res) => {
-    
-    
     await addDirectory(req)
     res.redirect('/virtualdir/')
     

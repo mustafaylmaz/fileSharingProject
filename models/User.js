@@ -8,7 +8,8 @@ const sequelize = new Sequelize(
        dialect: 'mysql'
      }
    );
-const Directory = require('./Directory.js')
+const Directory = require('./Directory.js');
+const File = require('./File.js');
 
 const User = sequelize.define("users", {
     user_id: {
@@ -26,5 +27,6 @@ const User = sequelize.define("users", {
     }
 })
 User.hasMany(Directory)
+User.hasMany(File)
 sequelize.sync()    
 module.exports = User

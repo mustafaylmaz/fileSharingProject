@@ -32,7 +32,6 @@ dotenv.config({
 const port = process.env.PORT || 3000;
 
 //ROUTES
-const downloadRoute = require("./routes/download.js");
 const homeRoute = require("./routes/home.js");
 const authRoute = require("./routes/auth.js");
 const virtualDirRoute = require("./routes/virtualdir/virtualdir.js");
@@ -46,7 +45,6 @@ app.set("view engine", "ejs");
 app.use(cors({origin: ['http://localhost:3000', 'http://127.0.0.1:3000']}));
 
 app.use("/", homeRoute);
-app.use("/download", downloadRoute);
 app.use("/auth", authRoute);
 app.use("/virtualdir", virtualDirRoute);
 app.use("/users", userRoute);
