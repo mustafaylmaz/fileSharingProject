@@ -39,61 +39,74 @@
       referrerpolicy="no-referrer"
     />
   </head>
+  <style>
+    body {
+      background: #70e1f5;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #ffd194, #70e1f5);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #ffd194, #70e1f5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+  </style>
   <body>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">File GUID</th>
-          <th scope="col">File Name</th>
-          <th scope="col">File Extension</th>
-          <th scope="col">Size</th>
-          <th scope="col">Upload Time</th>
-          <th scope="col">Download</th>
-          <th scope="col">Edit</th>
-          <th scope="col">Delete</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% files.forEach((item,index) => { %>
-        <tr>
-          <th scope="row"><%=item.id%></th>
-          <td><%=item.file_id%></td>
-          <td><%=item.file_name%></td>
-          <td><%=item.file_extension%></td>
-          <td><%=item.file_size%></td>
-          <td><%=item.createdAt%></td>
-          <td>
-            <a href="/<%=useruId%>/<%=dir.dir_name%>/<%=item.file_id%>"
-              ><i class="fa-solid fa-download"></i
-            ></a>
-          </td>
-          <td>
-            <a
-              data-toggle="modal"
-              data-id="<%=item.file_id%>"
-              class="editmodal"
-              data-target="#exampleModal"
-              href="#"
-            >
-              <i class="fa-solid fa-pen-to-square"></i
-            ></a>
-          </td>
-          <td>
-            <a href="#" class="delete-file" data-id="<%=item.id%>"> <i class="fa-solid fa-trash"></i></a>
-          </td>
-        </tr>
-        <% }) %>
-      </tbody>
-    </table>
+    <div class="container">
+      <table class="mt-5 table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">File GUID</th>
+            <th scope="col">File Name</th>
+            <th scope="col">File Extension</th>
+            <th scope="col">Size</th>
+            <th scope="col">Upload Time</th>
+            <th scope="col">Download</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% files.forEach((item,index) => { %>
+          <tr>
+            <th scope="row"><%=item.id%></th>
+            <td><%=item.file_id%></td>
+            <td><%=item.file_name%></td>
+            <td><%=item.file_extension%></td>
+            <td><%=item.file_size%></td>
+            <td><%=item.createdAt%></td>
+            <td>
+              <a href="/<%=useruId%>/<%=dir.dir_name%>/<%=item.file_id%>"
+                ><i class="fa-solid fa-download"></i
+              ></a>
+            </td>
+            <td>
+              <a
+                data-toggle="modal"
+                data-id="<%=item.file_id%>"
+                class="editmodal"
+                data-target="#exampleModal"
+                href="#"
+              >
+                <i class="fa-solid fa-pen-to-square"></i
+              ></a>
+            </td>
+            <td>
+              <a href="#" class="delete-file" data-id="<%=item.id%>">
+                <i class="fa-solid fa-trash"></i
+              ></a>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
     <form
+      class="container"
       action="/filemanager/<%=dirUId%>"
       enctype="multipart/form-data"
       method="POST"
     >
       <input id="currentVirtualDir" type="hidden" value="<%=dirUId%>" />
-      <input type="file" class="justify-content-center" name="myFile" />
+      <input type="file" class="btn btn-outline-primary rounded-pill" name="myFile" />
       <input
+        class="row mx-auto btn btn-dark"
         type="submit"
         class="justify-content-center"
         value="Upload a file"
@@ -150,7 +163,7 @@
     </div>
   </body>
   <script>
-    var uid,id, newFileName;
+    var uid, id, newFileName;
     $(document).on("click", ".editmodal", function () {
       uid = $(this).data("id");
     });
@@ -167,9 +180,11 @@
         }
       );
     });
-    $(document).on("click", ".delete-file", function() {
+    $(document).on("click", ".delete-file", function () {
       fileId = $(this).data("id");
-      $.post("delete", {id:fileId}, (res)=>{console.log();})
-    })
+      $.post("delete", { id: fileId }, (res) => {
+        console.log();
+      });
+    });
   </script>
 </html>
